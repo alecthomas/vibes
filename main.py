@@ -42,6 +42,9 @@ Output three files separated by ----:
 2. The raw function signature, including any injected types, the name, and any transitive types it uses.
 3. The raw function signature with only the input and output types, if any, including the name and any transitive types
    it uses, but excluding any injected functions or types.
+
+Transitive types are types that the root types reference, that those types in turn reference, and so on.
+Transitive types MUST be included in the signatures.
 """
 
 TEST_INPUT = r"""
@@ -55,8 +58,9 @@ TEST_INPUT = r"""
     writing to a datastore is a side-effect, and so on. Anything that relies on global state or mutates some external state
     is a side-effect. Do not create named types for injected parameters.
 
+Write a test for the given function signature, importing the function and any required types from "./main.ts".
 
-Write a test for the given function signature. Tests are written similar to the following:
+Tests are written similar to the following:
 
 ```
 import { assertEquals } from "@std/assert";

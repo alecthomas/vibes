@@ -10,7 +10,7 @@ export interface Invoice {
 }
 
 export function invoice(items: Item[]): Invoice {
-  const count = items.length;
+  const count = items.reduce((sum, item) => sum + item.quantity, 0);
   const subtotal = items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
   const price = subtotal * 1.1;
   
