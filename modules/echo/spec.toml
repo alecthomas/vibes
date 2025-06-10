@@ -1,0 +1,9 @@
+# Definition of the function
+signature = "function helloThere(name: string): string"
+definition = '''
+Define a function that takes a "name" string as input and returns a string in the form "Hello, ${name}, it is ${time}".
+''''
+
+[[test]]
+input = "Bob"
+output = "Hello, Bob, it is 12:34:56"

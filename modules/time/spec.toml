@@ -1,0 +1,9 @@
+# Definition of the function
+definition = '''
+Define a "time" function that takes no input and returns the current time as a string in the form HH:MM:SS
+''''
+signature = "export function time(): string"
+
+[[test]]
+fake = "Inject the current time as 12:34:56"
+output = "12:34:56"
