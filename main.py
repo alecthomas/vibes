@@ -114,7 +114,7 @@ def generate_code(client: LLMProvider, module_spec: spec.ModuleSpec) -> CodeGenR
 def generate_tests(client: LLMProvider, module_spec: spec.ModuleSpec, signature: str) -> List[TestGenResult]:
     out = []
     for test in module_spec.test:
-        input = "\n".join([TEST_INPUT, "Function signature:", signature, "Input:", test.input, "Output:", test.output, "Fakes:", (test.fake or "")])
+        input = "\n".join([TEST_INPUT, "Function signature:", signature, "Test definition:", test.definition])
         response = client(
             instructions=SYSTEM_INSTRUCTIONS,
             input=input,

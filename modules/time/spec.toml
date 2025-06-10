@@ -5,5 +5,4 @@ Define a "time" function that takes no input and returns the current time as a s
 signature = "export function time(): string"
 
 [[test]]
-fake = "Inject the current time as 12:34:56"
-output = "12:34:56"
+definition = "Verify that with a time of 12:34:56, the string 12:34:56 is returned."

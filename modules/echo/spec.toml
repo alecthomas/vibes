@@ -1,9 +1,10 @@
 # Definition of the function
-signature = "function helloThere(name: string): string"
+signature = "function echo(name: string): string"
 definition = '''
 Define a function that takes a "name" string as input and returns a string in the form "Hello, ${name}, it is ${time}".
 ''''
 
 [[test]]
-input = "Bob"
-output = "Hello, Bob, it is 12:34:56"
+definition = '''
+Verify that with input "Bob" we get the output "Hello, Bob, it is 12:34:56".
+''''

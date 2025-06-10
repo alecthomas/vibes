@@ -1,12 +1,11 @@
 import tomlkit
-from typing import List, Optional
+from typing import List
 from dataclasses import dataclass
 
 @dataclass
 class Test:
-    fake: Optional[str] = None
-    input: str = ""
-    output: str = ""
+    definition: str
+
 
 @dataclass
 class ModuleSpec:
@@ -14,6 +13,7 @@ class ModuleSpec:
     definition: str
     test: List[Test]
     _original_toml: tomlkit.TOMLDocument
+
 
 def load(file_path: str) -> ModuleSpec:
     """
@@ -36,9 +36,7 @@ def load(file_path: str) -> ModuleSpec:
     tests = []
     for test_data in data.get('test', []):
         test = Test(
-            fake=test_data.get('fake'),
-            input=test_data.get('input', ''),
-            output=test_data.get('output', '')
+            definition=test_data.get('definition'),
         )
         tests.append(test)
 
@@ -46,9 +44,10 @@ def load(file_path: str) -> ModuleSpec:
 
 
 def save(path: str, spec: ModuleSpec):
-    # Save the spec to path, updating the _original_toml document from the fields of the spec.
-    spec._original_toml['signature'] = spec.signature
-    spec._original_toml['definition'] = spec.definition
+    if 'signature' not in spec._original_toml:
+        spec._original_toml['signature'] = tomlkit.string(spec.signature, multiline=True)
+    if 'definition' not in spec._original_toml:
+        spec._original_toml['definition'] = tomlkit.string(spec.definition, multiline=True)
 
     with open(path, 'w', encoding='utf-8') as f:
         tomlkit.dump(spec._original_toml, f)

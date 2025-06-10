@@ -1,0 +1,37 @@
+# Definition of the function
+signature = '''
+interface Item {
+  description: string;
+  price: number;
+  quantity: number;
+}
+
+interface Invoice {
+    count: number;
+    price: number;
+}
+
+function invoice(items: Item[]): Invoice
+'''
+definition = '''
+The function sums the prices of all items in the invoice, adding sales tax of 10%.
+''''
+
+[[test]]
+definition = """
+Given the items:
+
+const items SaleItem[] = [{
+  id: "SKU001",
+  description: "Coffee Mug",
+  price: 8.99,
+  quantity: 3
+}, {
+  description: "Gift Card", // No ID provided
+  price: 50.00,
+  quantity: 1
+}]
+
+Confirm that the count is 4 and price is 84.667
+
+""""

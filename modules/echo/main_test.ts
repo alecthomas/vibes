@@ -1,33 +1,30 @@
 import { assertEquals } from "@std/assert";
-import { helloThere } from "./main.ts";
+import { echo } from "./main.ts";
 
-Deno.test(function helloThereTest() {
+Deno.test(function echoTest() {
   const mockGetCurrentTime = () => "12:34:56";
-  assertEquals(helloThere("Bob", mockGetCurrentTime), "Hello, Bob, it is 12:34:56");
+  assertEquals(echo("Bob", mockGetCurrentTime), "Hello, Bob, it is 12:34:56");
 });
 
-Deno.test(async function helloThereHttpTest() {
+Deno.test(async function echoHttpTest() {
+  const mockGetCurrentTime = () => "12:34:56";
+  
   const server = Deno.serve({ port: 8888 }, async (req) => {
-    if (req.method === "POST" && new URL(req.url).pathname === "/helloThere") {
-      const body = await req.json();
-      const mockGetCurrentTime = () => "12:34:56";
-      const result = helloThere(body.name, mockGetCurrentTime);
-      return new Response(JSON.stringify({ result }), {
-        headers: { "Content-Type": "application/json" }
-      });
+    if (req.method === "POST" && new URL(req.url).pathname === "/echo") {
+      const body = await req.text();
+      const result = echo(body, mockGetCurrentTime);
+      return new Response(result);
     }
     return new Response("Not Found", { status: 404 });
   });
 
   try {
-    const response = await fetch("http://127.0.0.1:8888/helloThere", {
+    const response = await fetch("http://127.0.0.1:8888/echo", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: "Bob" })
+      body: "Bob"
     });
-    
-    const data = await response.json();
-    assertEquals(data.result, "Hello, Bob, it is 12:34:56");
+    const result = await response.text();
+    assertEquals(result, "Hello, Bob, it is 12:34:56");
   } finally {
     server.shutdown();
   }
